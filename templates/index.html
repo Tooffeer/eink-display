@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>E-Ink Calender</title>
+</head>
+<body>
+  <h1>E-Ink Calendar</h1>
+  <img src="/static/calendar_display.png">
+
+  <h1>Events</h1>
+  <h2>Add Event</h2>
+  <form method="POST">
+    <label>Date: <input type="date" name="date" required></label>
+    <label>Title: <input type="text" name="title" required></label>
+    <button type="submit">Add Event</button>
+  </form>
+  <h2>Upcoming Events</h2>
+  <ul>
+    {% for event in events %}
+      <li>{{ event.title }} - {{ event.date }}</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
