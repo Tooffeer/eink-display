@@ -11,6 +11,7 @@ events_path = "events.json"
 # Save json data
 def save_events(data, path):
     try:
+        print("Saving events")
         with open(path, 'w') as file:
             data = json.dump(data, file, indent=4)
     except IOError as e:
@@ -19,6 +20,7 @@ def save_events(data, path):
 # Load json data
 def load_events(path):
     try:
+        print("Loading events")
         with open(path, 'r') as file:
             data = json.load(file)
             return data
@@ -30,6 +32,10 @@ def sort_events(events):
     # Convert date strings to datetime for sorting
     return sorted(events, key=lambda e: datetime.strptime(e['date'], '%Y-%m-%d'))
 
+
+# NEED TO CREATE THE STATIC DIRECTORY ASWELL
+# MAke the folder if not found
+
 # Check if events exist
 if not os.path.exists(events_path):
     # Create an empty json
@@ -40,7 +46,6 @@ if not os.path.exists(events_path):
 def index():
     # Load events
     events = load_events(events_path)
-
 
     # Add a new event
     if request.method == 'POST':
@@ -55,8 +60,6 @@ def index():
     
 
     events = sort_events(events)
-
-    
     draw_calendar(datetime.now(), events, 'static/calendar_display.png')
     update_eink('static/calendar_display.png')
     return render_template("index.html", events=events)
