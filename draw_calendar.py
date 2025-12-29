@@ -3,6 +3,9 @@ import calendar
 from datetime import datetime
 import os
 
+# --- Force calendar to start weeks on Sunday ---
+calendar.setfirstweekday(calendar.SUNDAY)
+
 WIDTH = 250
 HEIGHT = 122
 
@@ -48,13 +51,18 @@ def draw_calendar(current_date, events, save_path):
         font=font
     )
 
-    # --- Draw Weekday Headers ---
-    weekdays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
+    # --- Draw Weekday Headers (Sunday first) ---
+    weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
     square_width = cal_width // 7
     header_y = top_margin + text_h + 2
 
     for i, day_name in enumerate(weekdays):
-        draw.text((i * square_width + 2, header_y), day_name, fill=0, font=font)
+        draw.text(
+            (i * square_width + 2, header_y),
+            day_name,
+            fill=0,
+            font=font
+        )
 
     # --- Draw Day Grid ---
     cal = calendar.monthcalendar(current_year, current_month)
@@ -86,7 +94,12 @@ def draw_calendar(current_date, events, save_path):
                 text_color = 0
 
             # Day number
-            draw.text((x0 + 2, y0 + 2), str(day), fill=text_color, font=font)
+            draw.text(
+                (x0 + 2, y0 + 2),
+                str(day),
+                fill=text_color,
+                font=font
+            )
 
             # Event dot
             if day in event_days:
